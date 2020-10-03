@@ -1,5 +1,8 @@
 # equations should be verified before using data
-# V 1.1
+# This script determines the maximum deceleration possible for the car given different models and determines the
+# proportion of that ideal deceleration needed to meet standards
+# This script is not intended to give specific values
+# V 1.2
 
 
 # variables (PLACEHOLDERS ONLY)
@@ -9,10 +12,9 @@ center_of_mass_distance_from_front = 1
 car_mass = 181.437
 wheel_radius = 1
 num_front_wheels = 2
-num_back_wheels = 2
+coef_friction = 0.8
 # constants
 g = 9.81
-coef_friction = 0.8
 
 
 def torque_general(weight_proportion):
@@ -36,26 +38,12 @@ def torque_balanced_front():
     return torque_general(weight_distribution) / num_front_wheels
 
 
-def torque_balanced_back():
-    weight_distribution = center_of_mass_distance_from_front / tire_spacing
-    return torque_general(weight_distribution) / num_back_wheels
-
-
 def torque_twsc_model_front():
     return torque_general(0.7) / num_front_wheels
 
 
-def torque_twsc_model_back():
-    return torque_general(0.3) / num_back_wheels
-
-
 def torque_upper_bound_front():
     return torque_general(1) / num_front_wheels
-
-
-def torque_upper_bound_back():
-    weight_distribution = center_of_mass_distance_from_front / tire_spacing
-    return torque_general(weight_distribution) / num_back_wheels
 
 
 def deceleration_amount(torque):
@@ -95,3 +83,4 @@ print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_twsc_model
 
 print("\nUpper bound model deceleration: ", str(deceleration_amount(torque_upper_bound_front() * num_front_wheels)))
 print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_upper_bound_front()))
+
