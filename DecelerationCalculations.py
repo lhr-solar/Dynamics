@@ -8,19 +8,15 @@ tire_spacing = 2
 center_of_mass_distance_from_front = 1
 car_mass = 181.437
 wheel_radius = 1
-number_of_front_wheels = 2
-number_of_back_wheels = 2
+num_front_wheels = 2
+num_back_wheels = 2
 # constants
 g = 9.81
 coef_friction = 0.8
 
 
-def balanced_torque_sans_weight(weight):
-    return coef_friction * g * wheel_radius * weight
-
-
 def torque_general(weight_proportion):
-    return balanced_torque_sans_weight(car_mass * weight_proportion)
+    return coef_friction * g * wheel_radius * car_mass * weight_proportion
 
 
 # Approximations begin here
@@ -37,41 +33,46 @@ def torque_general(weight_proportion):
 
 def torque_balanced_front():
     weight_distribution = (tire_spacing - center_of_mass_distance_from_front) / tire_spacing
-    return torque_general(weight_distribution) / number_of_front_wheels
+    return torque_general(weight_distribution) / num_front_wheels
 
 
 def torque_balanced_back():
     weight_distribution = center_of_mass_distance_from_front / tire_spacing
-    return torque_general(weight_distribution) / number_of_back_wheels
+    return torque_general(weight_distribution) / num_back_wheels
 
 
 def torque_twsc_model_front():
-    return torque_general(0.7) / number_of_front_wheels
+    return torque_general(0.7) / num_front_wheels
 
 
 def torque_twsc_model_back():
-    return torque_general(0.3) / number_of_back_wheels
+    return torque_general(0.3) / num_back_wheels
 
 
 def torque_upper_bound_front():
-    return torque_general(1) / number_of_front_wheels
+    return torque_general(1) / num_front_wheels
 
 
 def torque_upper_bound_back():
     weight_distribution = center_of_mass_distance_from_front / tire_spacing
-    return torque_general(weight_distribution) / number_of_back_wheels
+    return torque_general(weight_distribution) / num_back_wheels
 
 
 def deceleration_amount(torque):
-    return torque * number_of_front_wheels / (car_mass * wheel_radius)
+    return torque * num_front_wheels / (car_mass * wheel_radius)
 
 
 def standards_torque():
-    return 0.5 * g * car_mass * wheel_radius / number_of_front_wheels
+    return 0.5 * g * car_mass * wheel_radius / num_front_wheels
 
 
 def meet_standards(torque):
-    return deceleration_amount(standards_torque() * number_of_front_wheels) > deceleration_amount(torque)
+    return deceleration_amount(standards_torque()) > deceleration_amount(torque)
+
+
+# proportion of ideal torque without slipping needed to pass regulation
+def prop_ideal_torque(torque):
+    return standards_torque() / torque
 
 
 # Display
@@ -82,12 +83,15 @@ def meet_standards(torque):
 # print("\ntwsc:\n\tFront: ", str(torque_twsc_model_front()))
 # print("\nUpper Bound:\n\tFront: ", str(torque_upper_bound_front()))
 # print("\nMeets Standards:", str(meet_standards()))
-print("Balanced model deceleration: ", str(deceleration_amount(torque_balanced_front() * number_of_front_wheels)),
-      "\nMeets standards: ",
-      str(meet_standards(deceleration_amount(torque_balanced_front() * number_of_front_wheels))))
-print("Twsc model deceleration: ", str(deceleration_amount(torque_twsc_model_front() * number_of_front_wheels)),
-      "\nMeets standards: ",
-      str(meet_standards(deceleration_amount(torque_twsc_model_front() * number_of_front_wheels))))
-print("Upper bound model deceleration: ", str(deceleration_amount(torque_upper_bound_front() * number_of_front_wheels)),
-      "\nMeets standards: ", str(meet_standards(deceleration_amount(torque_upper_bound_front() *
-                                                                    number_of_front_wheels))))
+
+
+print("Torque required to meet standards: ", str(standards_torque()))
+
+print("\nBalanced model deceleration: ", str(deceleration_amount(torque_balanced_front() * num_front_wheels)))
+print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_balanced_front()))
+
+print("\nTwsc model deceleration: ", str(deceleration_amount(torque_twsc_model_front() * num_front_wheels)))
+print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_twsc_model_front()))
+
+print("\nUpper bound model deceleration: ", str(deceleration_amount(torque_upper_bound_front() * num_front_wheels)))
+print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_upper_bound_front()))
