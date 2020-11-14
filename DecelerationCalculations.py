@@ -1,4 +1,3 @@
-# equations should be verified before using data
 # This script determines the maximum deceleration possible for the car given different models and determines the
 # proportion of that ideal deceleration needed to meet standards
 # This script is not intended to give specific values
@@ -7,12 +6,12 @@
 
 # variables (PLACEHOLDERS ONLY)
 # ALL VARIABLES SHOULD BE IN SI UNITS (meters and kilograms)
-tire_spacing = 2
-center_of_mass_distance_from_front = 1
-car_mass = 181.437
-wheel_radius = 1
+tire_spacing = 2.452  # from body
+center_of_mass_distance_from_front = 0.9808 # estimated from TWSC model
+car_mass = 317.515  # (liberal estimate) goal weight of 550 lbs plus 150lbs for driver
+wheel_radius = 0.2752  # from parts
 num_front_wheels = 2
-coef_friction = 0.8
+coef_friction = 0.8  # Estimated for dry pavement
 # constants
 g = 9.81
 
@@ -73,7 +72,7 @@ def prop_ideal_torque(torque):
 # print("\nMeets Standards:", str(meet_standards()))
 
 
-print("Torque required to meet standards: ", str(standards_torque()))
+print("Torque required to meet standards(whole car): ", str(standards_torque() * num_front_wheels))
 
 print("\nBalanced model deceleration: ", str(deceleration_amount(torque_balanced_front() * num_front_wheels)))
 print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_balanced_front()))
@@ -83,4 +82,3 @@ print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_twsc_model
 
 print("\nUpper bound model deceleration: ", str(deceleration_amount(torque_upper_bound_front() * num_front_wheels)))
 print("Proportion of ideal torque needed: ", prop_ideal_torque(torque_upper_bound_front()))
-
