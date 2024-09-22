@@ -13,12 +13,13 @@ def OptimizeSteering():
     import heapq
     from alive_progress import alive_bar
     import logging
-
+    import warnings
     logging.basicConfig(level=logging.WARNING)
+    warnings.filterwarnings("ignore", category=RuntimeWarning)
     '''-------------------------------------------------OPTIMIZATION PARAMETERS---------------------------------------------------------'''
     # Simulation parameters
-    num_steps = 50 # Define the number of steps
-    num_fit_points = 10000 # Define granularity
+    num_steps = 500 # Define the number of steps
+    num_fit_points = 100 # Define granularity
 
     # Constants
     phi_lower_bound = np.radians(-15) # Lower bound for phi in radians [Deg] -> [Rad]
