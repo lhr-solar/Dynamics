@@ -1,6 +1,9 @@
 ## DEFINE INPUTS
+
+import math
+
 # Define Geometry
-pi = 3.1415926535897932384626433
+pi = math.pi #3.1415926535897932384626433
 l1 = 150.87 #[mm] vertical distance from lower rod end to tire contact patch
 l2 = 452.56 #[mm] vertical distance from upper rod end to tire contact patch
 l3 = 115.83 #[mm] vertical distance from lower rod end to axle
