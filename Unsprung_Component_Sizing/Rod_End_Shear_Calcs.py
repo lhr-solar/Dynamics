@@ -99,3 +99,4 @@ print(f'SF_tresca1: {SF_tresca1}')
 print(f'SF_tresca2: {SF_tresca2}')
 
 print('---------------')
+
