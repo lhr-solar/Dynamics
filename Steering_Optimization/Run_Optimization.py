@@ -34,16 +34,16 @@ num_fit_points = 100 # Define granularity
 num_retain = 10 # The number of correct cases to maintain
 
 # Geometry constants
-wb = 2000 # Wheelbase [mm]
-x_travel = 80 # Steering rack travel per direction [mm]
-w_track = 800 # Track width [mm]
-l_rack = 300 # Steering rack length [mm]
+wb = 2500 # Wheelbase [mm]
+x_travel = 82.55 # Steering rack travel per direction [mm]
+w_track = 1500 # Track width [mm]
+l_rack = 386.715 # Steering rack length [mm]
 phi_upper_bound = np.radians(0) # positive phi is towards the outboard side
 
 # Geometry variable ranges
-rack_spacings = np.arange(50, 450 + step_size, step_size)
-ls_tierod = np.arange(50, 350 + step_size, step_size)
-ls_str_arm = np.arange(50.1, 600 + step_size, step_size) # needs to be larger than ls_str_arm min to avoid divide by 0 error
+rack_spacings = np.arange(50, 700 + step_size, step_size)
+ls_tierod = np.arange(50, 700 + step_size, step_size)
+ls_str_arm = np.arange(50.1, 700 + step_size, step_size) # needs to be larger than ls_str_arm min to avoid divide by 0 error
 
 
 # Package Inputs

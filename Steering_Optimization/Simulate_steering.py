@@ -6,7 +6,7 @@ import sys
 # Returns an error value for given geometry
     # Inputs: Steering geometry values and num_fit_points (the length of the output vectors)
     # Outputs: A vector of inner wheel angles, a vector of outer wheel angles, a vector of ideal outer wheel angles
-# @njit(parallel=False)
+@njit(parallel=False)
 def sim(params):
 
     # Unpack required variables
@@ -33,7 +33,7 @@ def sim(params):
     wte = (w_track - l_rack)/2 # Equivalent steering thickness/effective track width [length units passed in]
     x_i = np.linspace(0, -x_travel, num_fit_points)
     x_o = np.linspace(0, x_travel, num_fit_points)
-    
+
     # Find phi so that wheels are straight when rack is centered
     phi = str_arm_angle(rack_spacing, wte, l_tierod, l_str_arm, 0) - np.pi/2 # minus pi over 2 to bring it back to the angle wrt the wheel instead of the horizontal reference
     
